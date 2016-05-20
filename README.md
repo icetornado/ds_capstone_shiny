@@ -1,4 +1,4 @@
-# ds_capstone_shiny
+# Data Science Capstone
 
 This capstone project is a project of the final class of "Data Science Specialization" track offered by John Hopkins/Coursera.  It captures of ability to create a usable/public data product that can be used to show the data scientist skills.
 
