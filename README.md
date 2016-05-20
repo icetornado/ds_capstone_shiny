@@ -12,5 +12,7 @@ The capstone is based on the following thoughts:
 https://d396qusza40orc.cloudfront.net/dsscapstone/dataset/Coursera-SwiftKey.zip
 
 ## References:
-<ul><li><a href="http://www.jstatsoft.org/v25/i05/" target="_blank" rel="noopener nofollow">Text mining infrastucture in R</a></li><li><a href="http://cran.r-project.org/web/views/NaturalLanguageProcessing.html" target="_blank" rel="noopener nofollow">CRAN Task View: Natural Language Processing</a></li><li><a href="https://class.coursera.org/nlp" target="_blank" rel="noopener nofollow">Coursera course on NLP (not in R)</a></li></ul>
+<ul><li><a href="http://www.jstatsoft.org/v25/i05/" target="_blank" rel="noopener nofollow">Text mining infrastucture in R</a></li><li><a href="http://cran.r-project.org/web/views/NaturalLanguageProcessing.html" target="_blank" rel="noopener nofollow">CRAN Task View: Natural Language Processing</a></li><li><a href="https://class.coursera.org/nlp" target="_blank" rel="noopener nofollow">Coursera course on NLP (not in R)</a></li>
+<li><a href="https://west.uni-koblenz.de/sites/default/files/BachelorArbeit_MartinKoerner.pdf">https://west.uni-koblenz.de/sites/default/files/BachelorArbeit_MartinKoerner.pdf</a></li>
+</ul>
 
