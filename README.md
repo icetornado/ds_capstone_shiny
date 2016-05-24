@@ -8,7 +8,7 @@ The capstone is based on the following thoughts:
 - This work process of the project will start with the basics, analyzing a large corpus of text documents to discover the structure in the data and how words are put together. It will cover cleaning and analyzing text data, then building and sampling from a predictive text model. Finally, a complete data product will be built a predictive text product.
 
 ## Shiny App URL
-<a href="https://trieutn.shinyapps.io/data_products_course_project/">Text Predictive</a>
+<a href="https://trieutn.shinyapps.io/ds_capstone_shiny/">Text Predictive</a>
 ## Course dataset
 https://d396qusza40orc.cloudfront.net/dsscapstone/dataset/Coursera-SwiftKey.zip
 
