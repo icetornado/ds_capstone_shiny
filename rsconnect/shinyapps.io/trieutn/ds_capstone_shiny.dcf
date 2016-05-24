@@ -1,0 +1,9 @@
+name: ds_capstone_shiny
+account: trieutn
+server: shinyapps.io
+appId: 103274
+bundleId: 461631
+url: https://trieutn.shinyapps.io/ds_capstone_shiny/
+when: 1464114436.69312
+asMultiple: FALSE
+asStatic: FALSE

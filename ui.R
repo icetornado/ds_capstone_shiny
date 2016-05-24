@@ -9,6 +9,7 @@ library(htmltools)
 library(shiny)
 
 shinyUI(
+       
         fluidPage(
                 tags$head(
                         tags$link(rel = "stylesheet", type = "text/css", href = file.path("bootstrap.css")),
@@ -18,21 +19,18 @@ shinyUI(
                 h4("Trieu Tran"),
                 h5("May 20, 2016"),
                 hr(),
+                p("This is a demonstration of building a Shiny IO Application."),
                 fluidRow(
-                        column(12, 
-                               wellPanel(
-                                        p("This is a demonstration of building a Shiny IO Application."),
-                                        wellPanel(
-                                                textInput("text", label = h3("Text input"), 
-                                                          value = "Enter text..."),
-                                                hr(),
-                                                p("Current Value:", style = "color:#888888;"), 
-                                                fluidRow(column(3, verbatimTextOutput("value"))),
-                                                fluidRow(column(3, verbatimTextOutput("predicted")))
-                                        )
-                                   
-                               )
-                        )
+                        column(8, tags$div(class = "button_line", tags$span("Alternative:", class="line_header"), uiOutput("spell1"), uiOutput("spell2"), uiOutput("spell3")))
+                ),
+                fluidRow(
+                        column(8, tags$textarea(id="text", rows=5, class="form-control"))
+                ),
+                fluidRow(
+                         column(8, actionButton("back", "<< Delete", class="my_back_btn pull-right"))
+                ),
+                fluidRow(
+                        column(8, tags$div(class = "button_line", tags$span("Prediction:", class="line_header"), uiOutput("choice1"), uiOutput("choice2"), uiOutput("choice3")))
                 )
         )
 )
