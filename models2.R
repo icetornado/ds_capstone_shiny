@@ -23,10 +23,11 @@ PredictWord <- function(w, wordCount1, limit = 3, cutoff = 10) {
         }
 }
 
-PredictKN2 <- function(w, wordCount1, wordCount2, limit = 3, cutoff = 20) {
+PredictKN2 <- function(w, wordCount1, wordCount2, limit = 3, cutoff = 10) {
         print("Predict 2")
         # d
-        d <- length(wordCount2[wordCount2==1]) / (length(wordCount2[wordCount2==1]) + 2 * length(wordCount2[wordCount2==2]))
+        y <- length(wordCount2[wordCount2==1]) / (length(wordCount2[wordCount2==1]) + 2 * length(wordCount2[wordCount2==2]))
+        d <- 1 - 2 * y * (length(wordCount2[wordCount2==2]) / length(wordCount2[wordCount2==1]))
         
         # cw1, nw1*, n**
         cw1 <- wordCount1[names(wordCount1) == w]
@@ -73,7 +74,7 @@ PredictKN2 <- function(w, wordCount1, wordCount2, limit = 3, cutoff = 20) {
                 }
                 else {
                         print("kn2 not possible but it happened")
-                        return(PredictWord(w1, wordCount1, limit, cutoff))
+                        return(PredictWord(w, wordCount1, limit, cutoff))
                 }
                 
         }
@@ -82,8 +83,9 @@ PredictKN2 <- function(w, wordCount1, wordCount2, limit = 3, cutoff = 20) {
 
 PredictKN3 <- function(w1, w2, wordCount1, wordCount2, wordCount3, limit = 3, cutoff = 10) {
         #calculate d3, d2
-        d3 <- length(wordCount3[wordCount3==1]) / (length(wordCount3[wordCount3==1]) + 2 * length(wordCount3[wordCount3==2]))
-        d2 <- length(wordCount2[wordCount2==1]) / (length(wordCount2[wordCount2==1]) + 2 * length(wordCount2[wordCount2==2]))
+        y <- length(wordCount3[wordCount3==1]) / (length(wordCount3[wordCount3==1]) + 2 * length(wordCount3[wordCount3==2]))
+        d3 <-  3 - 4 * y * (length(wordCount3[wordCount3==4]) / length(wordCount3[wordCount3==3]))
+        d2 <- 2 - 3 * y * (length(wordCount3[wordCount3==3]) / length(wordCount3[wordCount3==2]))
         
         # nw1w2*, cw1w2
         nw1w2star <- sum(grepl(paste0("^", w1, " ", w2, " "), names(wordCount3)))
@@ -95,22 +97,23 @@ PredictKN3 <- function(w1, w2, wordCount1, wordCount2, wordCount3, limit = 3, cu
                 return(PredictKN2(w2, wordCount1, wordCount2, limit, cutoff))
         }
         else {
-                #nw2*, cw2
+                #nw2*, n*w2*
                 nw2star <- sum(grepl(paste0("^", w2, " "), names(wordCount2)))
-                cw2 <- wordCount1[names(wordCount1) == w2]
+                #cw2 <- wordCount1[names(wordCount1) == w2]
+                nstarw2star <- sum(grepl(w2, names(wordCount2)))
                 
                 ## n**
                 nstarstar <- length(wordCount2)
                 
                 ## get a list of w1w2* from trigram
                 listw1w2star <- wordCount3[grepl(paste0("^", w1, " ", w2, " "), names(wordCount3))]
-                print(length(listw1w2star))
+                
                 if(length(listw1w2star) > 0) {
-                        if(length(listw1w2star) > cutoff) {
-                                ubound = cutoff
+                        if(cutoff == 0 || length(listw1w2star) < cutoff) {
+                                ubound = length(listw1w2star)  
                         }
                         else {
-                                ubound = length(listw1w2star)
+                                ubound = cutoff
                         }
                         
                         pkn <- rep(NA, ubound)
@@ -120,15 +123,24 @@ PredictKN3 <- function(w1, w2, wordCount1, wordCount2, wordCount3, limit = 3, cu
                                 ## get cw1w2w3, n*w3
                                 w3 <- unlist(strsplit(names(listw1w2star[i]), " "))[3]
                                 cw1w2w3 <- wordCount3[names(wordCount3) == paste0(w1, " ", w2, " ", w3)]
-                                
+                                #print("cw1w2w3")
+                                #print(cw1w2w3)
                                 nstarw3 <- sum(grepl(paste0(w3,"$"), names(wordCount2)))
                                 
-                                ## get cw2w3
-                                cw2w3 <- sum(grepl(paste0("^", w2, " ", w3, "$"), names(wordCount2)))
-                                pw1w2 <- max(cw2w3 - d2,0 )/cw2 + d2/cw2*nw2star*(nstarw3/nstarstar)
+                                ## get n*w2w3
+                                nstarw2w3 <- sum(grepl(paste0(w2, " ", w3, "$"), names(wordCount3)))
+                                
+                                ##calculate Pknw3
+                                pknw3 <- nstarw3/nstarstar
+                                
+                                ## calculate Pkn(w3|w2)
+                                pknw3w2 <- max(nstarw2w3 - d2,0 )/nstarw2star + d2/nstarw2star*nw2star*pknw3
                                 
                                 ## get pkn
-                                pkn[i] <- max(cw1w2w3 - d3, 0)/cw1w2 + d3/cw1w2*nw1w2star*pw1w2
+                                pkn[i] <- max(cw1w2w3 - d3, 0)/cw1w2 + d3/cw1w2*nw1w2star*pknw3w2
+                                #print("pkni")
+                                #print(pkn[i])
+                                
                                 w3list[i] <- w3
                         }
 

@@ -1,7 +1,7 @@
 library(dplyr)
 library(tm)
 library(SnowballC)
-contractionsDF <- read.csv(file.path("data", "contractions.csv"), na.strings = "", stringsAsFactors = FALSE, header = FALSE)
+contractionsDF <- read.csv(file.path("data3", "contractions.csv"), na.strings = "", stringsAsFactors = FALSE, header = FALSE)
 names(contractionsDF) = c("key", "value")
 contractionsDF <- mutate(contractionsDF, x = tolower(gsub("'", "", contractionsDF$key)))
 

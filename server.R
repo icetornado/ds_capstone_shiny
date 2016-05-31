@@ -4,12 +4,12 @@ library(stringr)
 library(doParallel)
 registerDoParallel()
 
-source(file.path("models.R"))
+source(file.path("models2.R"))
 
-wordCount1 <- readRDS(file.path("data", "wordCount1.Rds"))
-wordCount2 <- readRDS(file.path("data", "wordCount2.Rds"))
-wordCount3 <- readRDS(file.path("data", "wordCount3.Rds"))
-wordCount1NoStem <- readRDS(file.path("data", "wordCount1NoStem.Rds"))
+wordCount1 <- readRDS(file.path("data3", "wordCount1.Rds"))
+wordCount2 <- readRDS(file.path("data3", "wordCount2.Rds"))
+wordCount3 <- readRDS(file.path("data3", "wordCount3.Rds"))
+wordCount1NoStem <- readRDS(file.path("data3", "wordCount1NoStem.Rds"))
 
 shinyServer(function(input, output, clientData, session) {
         globalWords <- list()
@@ -31,14 +31,23 @@ shinyServer(function(input, output, clientData, session) {
                 }
                 
                 ## get the prediction 
-                if(length(myArr) >= 1) {
-                        predicted <- PredictKN3(myArr[1], myArr[2], wordCount1, wordCount2, wordCount3)
+                if(length(myArr) > 1) {
+                        predicted <- PredictKN3(myArr[1], myArr[2], wordCount1, wordCount2, wordCount3, limit = 3, cutoff = )
                         
                         if(length(predicted) > 0) {
                                 for(i in 1:length(predicted)) {
                                         predictArr[i] = FilterOutput(predicted[i], contractionsDF)
                                 }
                         }
+                }
+                else if(length(myArr) == 1) {
+                        predicted <- PredictKN2(myArr[1], wordCount1, wordCount2)
+                        
+                        if(length(predicted) > 0) {
+                                for(i in 1:length(predicted)) {
+                                        predictArr[i] = FilterOutput(predicted[i], contractionsDF)
+                                }
+                        } 
                 }
                 
                 return(as.data.frame(list(spelling = spellingArr, predicted = predictArr)))
